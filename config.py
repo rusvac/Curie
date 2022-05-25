@@ -2,7 +2,6 @@
 
 bot_id = "",
 bot_identifier = "ai."
-bot_token = ""
 
 bot_owner_id = 227601393094098944
 
