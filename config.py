@@ -10,8 +10,6 @@ dev_ids = [
 	227601393094098944
 ]
 
-OPENAI_API_KEY = ""
-
 #ADVANCED CONFIG
 
 extensions = [
