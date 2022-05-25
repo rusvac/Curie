@@ -1,4 +1,5 @@
 import os
+import re
 import openai
 import discord
 from discord.ext import commands
@@ -25,29 +26,42 @@ class CuriePlugin(commands.Cog, name='Talk to OpenAI Curie'):
 		EXPIREMENTAL
 		'''
 
-		preSetup = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: {0}\nAI:"
+		preSetup = """
+		Goober is a silly chatbot that tries to carry a fun conversation with humans:
 
-		print(args)
+Goober: Hello! How can I help you?
+Human: {0}
+Goober:
+		"""
+
+		print(ctx.author.name, "says:", " ".join(args))
 		joinedPrompt = " ".join(args)
+		await ctx.trigger_typing()
 
 		finalPrompt = preSetup.format(joinedPrompt)
 
 		response = openai.Completion.create(
-			engine="curie",
+			engine="text-davinci-002",
 			prompt=finalPrompt,
-			temperature=0.9,
-			max_tokens=150,
-			top_p=1,
-			frequency_penalty=0.0,
-			presence_penalty=0.6,
-			stop=["\n", " Human:", " AI:"]
+			temperature=0.5,
+			max_tokens=60,
+			top_p=0.3,
+			frequency_penalty=0.5,
+			presence_penalty=0.0,
+			#stop=["\n", " Human:", " AI:"]
 		)
-		print(response)
+
 		output = None
 		outputs = response['choices']
+		
 		for i in outputs:
 			if output == None:
 				output = i['text']
+
+		print("Curie responds:", output)
+
+		if(re.sub(r"[\n\t\s]*", "", output) == ""):
+			await ctx.send('...')
 
 		await ctx.send(output)
 
