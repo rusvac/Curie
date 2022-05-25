@@ -11,6 +11,8 @@ from config import *
 # IMPORT ENV KEYS
 env = getEnvFile()
 
+DISCORD_BOT_KEY = env['DISCORD_BOT_KEY']
+
 OPENAI_API_KEY = env['OPENAI_API_KEY']
 
 
@@ -44,4 +46,4 @@ if __name__ == '__main__':  # Ensures this is the file being ran
 	connectCogs(None)
 	#keep_alive()  # Starts a webserver to be pinged.
 	#token = os.environ.get("DISCORD_BOT_SECRET")
-	bot.run(bot_token)  # Starts the bot
+	bot.run(DISCORD_BOT_KEY)  # Starts the bot
